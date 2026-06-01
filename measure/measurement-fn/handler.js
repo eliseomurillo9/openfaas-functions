@@ -1,4 +1,5 @@
 'use strict'
+const {save} = require("./adapter/mongodb");
 const NORMAL_LABEL = 'NORMAL'
 const WARNING_LABEL = 'WARNING'
 const CRITICAL_LABEL = 'CRITICAL'
@@ -63,18 +64,25 @@ module.exports = async (event, context) => {
 
     if (vibrationAlerts || temperatureAlerts || energyConsumptionAlerts) {
         const message = alertBuilder(id, vibrationAlerts, temperatureAlerts, energyConsumptionAlerts, time)
-        const hasCriticalAlert = message.alerts.find(alert => alert.level === CRITICAL_LABEL)
+        const hasCriticalAlert = message.alerts.find(alert => alert["level"] === CRITICAL_LABEL)
         const hasTwoAlerts = message.alerts.length >= 2
 
         if (hasCriticalAlert || hasTwoAlerts) {
             console.log('ALERT: ', message)
+
+            try {
+                const {insertedId} = await save(message)
+                return context
+                    .status(200)
+                    .succeed(JSON.stringify(insertedId))
+            } catch (error) {
+                console.error('Error saving alert: ', error)
+                return context
+                    .status(500)
+                    .succeed(error)
+            }
         }
-        return context
-            .status(200)
-            .succeed(message)
 
+        return context.status(200)
     }
-
-    return context.status(200)
 }
-
