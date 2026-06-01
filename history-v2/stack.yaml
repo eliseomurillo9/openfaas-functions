@@ -3,7 +3,8 @@ provider:
   name: openfaas
   gateway: http://127.0.0.1:8080
 functions:
-  alerting-fn:
+  history:
     lang: node25
-    handler: ./alerting-fn
-    image: eliseomurillo9/alerting-fn:latest>
+    handler: ./history
+    image: eliseomurillo9/history:latest
+
