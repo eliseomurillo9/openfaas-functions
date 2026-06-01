@@ -1,9 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 async function save(alertBody, collection) {
-    console.log("RUNNING SAVE");
     //TODO: Create a connection pool
-    console.log(alertBody);
     const uri = 'mongodb+srv://eliseomurillo9:jH57Kfrc4ka027QX@iot-tp.sfzmdp5.mongodb.net/';
     const client = new MongoClient(uri);
     try {

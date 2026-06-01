@@ -3,7 +3,7 @@ const {Resend} = require('resend');
 const resend = new Resend('re_jmYtXDQ7_372FABo7uioddRgEgX8Uqb84');
 
 async function alerting(report) {
-
+        console.log(report);
         const {data, error} = await resend.emails.send({
             from: 'onboarding@resend.dev',
             to: 'eliseomurillo9@gmail.com',

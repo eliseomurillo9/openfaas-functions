@@ -70,7 +70,6 @@ async function measure(deviceData) {
         const hasTwoAlerts = message.alerts.length >= 2
 
         if (hasCriticalAlert || hasTwoAlerts) {
-            console.log('ALERT: ', message)
             try {
                 const {insertedId} = await save(message, "alerts")
                 await alerting(message)
