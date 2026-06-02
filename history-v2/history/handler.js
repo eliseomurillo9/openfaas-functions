@@ -6,11 +6,6 @@ module.exports = async (event, context) => {
   console.time("==== Processing device data ====")
   const deviceItem = event.body
 
-  if (!deviceItem) {
-    console.timeEnd("==== Processing device data ====")
-    return context.status(200).succeed(JSON.stringify({ message: 'No device data to process' }));
-  }
-
   try {
     const {insertedId} = await save(deviceItem, "history")
     const alert = await measure(deviceItem)

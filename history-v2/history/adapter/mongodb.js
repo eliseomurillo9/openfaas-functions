@@ -1,16 +1,21 @@
 const { MongoClient } = require('mongodb');
 const uri = 'mongodb+srv://eliseomurillo9:jH57Kfrc4ka027QX@iot-tp.sfzmdp5.mongodb.net/';
 const client = new MongoClient(uri, {
-    maxPoolSize: 200
+    maxPoolSize: 10
 });
+let database;
 
-client.connect();
+async function getDatabase() {
+    if (!database) {
+        await client.connect();
+        database = client.db("open-faas-tp");
+    }
+
+    return database;
+}
 async function save(alertBody, collection) {
-    //TODO: Create a connection pool
-    const uri = 'mongodb+srv://eliseomurillo9:jH57Kfrc4ka027QX@iot-tp.sfzmdp5.mongodb.net/';
-    const client = new MongoClient(uri);
     try {
-        const database = client.db('open-faas-tp');
+        const database = await getDatabase()
         const alertCollection = database.collection(collection);
 
         return await alertCollection.insertOne(alertBody);

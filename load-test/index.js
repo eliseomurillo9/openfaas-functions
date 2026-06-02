@@ -9,7 +9,7 @@ export const options = {
 export default function () {
     const payload = JSON.stringify({
         id: `sensor-${Math.floor(Math.random() * 100000)}`,
-        temperature: Math.floor(Math.random() * 100),
+        temperature: Math.floor(Math.random() * 70),
         vibration: Math.floor(Math.random() * 30),
         energyConsumption: Math.floor(Math.random() * 100),
         time: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
