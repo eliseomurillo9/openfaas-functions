@@ -72,8 +72,11 @@ async function measure(deviceData) {
         if (hasCriticalAlert || hasTwoAlerts) {
             try {
                 const {insertedId} = await save(message, "alerts")
-                await alerting(message)
-                return insertedId
+                const alertness = await alerting(message)
+
+                if (!alertness && !insertedId) {
+                    return insertedId
+                }
             } catch (error) {
                 console.error('Error saving alert: ', error)
                 throw error
