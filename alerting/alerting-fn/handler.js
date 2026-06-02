@@ -1,22 +1,11 @@
 'use strict'
-const {Resend} = require('resend');
-
-const resend = new Resend('re_jmYtXDQ7_372FABo7uioddRgEgX8Uqb84');
+const {discordalerting} = require("./adapters/discordAlerting");
 
 module.exports = async (event, context) => {
-    const result = {
-        'body': JSON.stringify(event.body),
-        'content-type': event.headers["content-type"]
-    }
-
-    const {id, error, params} = event.body;
+    const alerts = event.body;
     try {
-        await resend.emails.send({
-            from: 'onboarding@resend.dev',
-            to: 'eliseomurillo9@gmail.com',
-            subject: `Alerting: Sensor ${id}`,
-            html: `<h1>Threshold exceed for sensor ${id}</h1> </br><p>${error}</p></br><p>${params}</p>`
-        });
+        console.log("RUNNING ALERTING")
+        await discordalerting(alerts)
         return context
             .status(200)
             .succeed()

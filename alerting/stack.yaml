@@ -6,4 +6,4 @@ functions:
   alerting-fn:
     lang: node25
     handler: ./alerting-fn
-    image: eliseomurillo9/alerting-fn:latest>
+    image: eliseomurillo9/alerting-fn:latest

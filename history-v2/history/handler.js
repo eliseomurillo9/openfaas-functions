@@ -1,25 +1,21 @@
 'use strict'
-
+const {measureInvoker} = require('./utils/funtionsInvoker');
 const {save} = require("./adapter/mongodb");
-const {measure} = require("./utils/measure");
 module.exports = async (event, context) => {
   console.time("==== Processing device data ====")
-  const deviceItem = event.body
+  const deviceData = event.body
 
   try {
-    const {insertedId} = await save(deviceItem, "history")
-    const alert = await measure(deviceItem)
-
-    if (!alert && !insertedId) {
-      throw Error("error handling device data")
+    await measureInvoker(deviceData)
+    const {insertedId} = await save(deviceData, "history")
+    if (!insertedId) {
+      throw new Error("error handling device data")
     }
-    console.timeEnd("==== Processing device data ====")
     return context
         .status(200)
         .succeed(JSON.stringify(insertedId));
 
   } catch (error) {
-    console.timeEnd("==== Processing device data ====")
     console.error('Error saving alert: ', error)
     return context
         .status(500)
