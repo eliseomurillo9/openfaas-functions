@@ -6,5 +6,5 @@ functions:
   history:
     lang: node25
     handler: ./history
-    image: eliseomurillo9/history:v2
+    image: eliseomurillo9/history:v3
 
